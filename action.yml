@@ -1,0 +1,38 @@
+name: Build 
+description: Build spring boot application
+inputs:
+  docker-username:
+    description: docker username
+    required: true
+  docker-password:
+    description: password of the docker username
+    required: true
+outputs:
+  image_name:
+    description: The name of the built Docker image
+runs:
+  using: "composite"  
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: login to docker hub
+        run: docker login -u ${{ inputs.DOCKER_USERNAME}} -p ${{ inputs.DOCKER_PASSWORD}}
+
+      - name: Build Docker Image
+        run: |
+          docker build -t ${{ inputs.DOCKER_USERNAME }}/spring-petclinic .
+          echo "image_name= ${{ inputs.DOCKER_USERNAME }}/spring-petclinic:latest" >> $GITHUB_ENV
+        
+      - name: Publish the docker image
+        run: docker push ${{ inputs.DOCKER_USERNAME }}/spring-petclinic:latest  
