@@ -17,6 +17,10 @@ runs:
     - name: Build with Maven
       shell: bash
       run: mvn clean install
+    - name: Debug Inputs
+      run: |
+      echo "Username: ${{ inputs.DOCKER_USERNAME }}"
+      echo "Password: ${{ inputs.DOCKER_PASSWORD }}"
     - name: login to docker hub
       shell: bash
       env:
