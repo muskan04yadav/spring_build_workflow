@@ -1,12 +1,6 @@
 name: Build 
 description: Build spring boot application
-inputs:
-  DOCKER_USERNAME:
-    description: docker username
-    required: true
-  DOCKER_PASSWORD:
-    description: password of the docker username
-    required: true
+
 outputs:
   image_name:
     description: The name of the built Docker image
@@ -25,15 +19,18 @@ runs:
       run: mvn clean install
     - name: login to docker hub
       shell: bash
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run:
         echo "${{ inputs.DOCKER_PASSWORD }}" | docker login -u "${{ inputs.DOCKER_USERNAME }}" --password-stdin
 
     - name: Build Docker Image
       shell: bash
       run: |
-        docker build -t ${{ inputs.DOCKER_USERNAME }}/spring-petclinic .
-        echo "image_name= ${{ inputs.DOCKER_USERNAME }}/spring-petclinic:latest" >> $GITHUB_ENV
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/spring-petclinic .
+        echo "image_name= ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:latest" >> $GITHUB_ENV
         
     - name: Publish the docker image
       shell: bash
-      run: docker push ${{ inputs.DOCKER_USERNAME }}/spring-petclinic:latest  
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:latest  
