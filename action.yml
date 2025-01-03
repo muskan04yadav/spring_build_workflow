@@ -26,6 +26,7 @@ runs:
       shell: bash
       run: mvn clean install
     - name: Debug Inputs
+      shell: bash
       run: |
       echo "username: ${{ inputs.docker_username }}"
       echo "password: ${{ inputs.docker_password }}"
