@@ -25,7 +25,7 @@ runs:
       run: mvn clean install
     - name: login to docker hub
       shell: bash
-      run: docker login -u ${{ inputs.DOCKER_USERNAME}} -p ${{ inputs.DOCKER_PASSWORD}}
+      run: docker login -u ${{ inputs.DOCKER_USERNAME}} -p ${{ inputs.DOCKER_PASSWORD}} --password-stdin
 
     - name: Build Docker Image
       shell: bash
