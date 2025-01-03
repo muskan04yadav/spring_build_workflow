@@ -1,41 +1,46 @@
 name: Build 
 description: Build spring boot application
-
-inputs:
-  docker_username:
-    required: true
-    type: string
-  docker_password:
-    required: true
-    type: string
+on:
+  workflow_call:
+    inputs:
+      docker_username:
+        required: true
+        type: string
+      docker_password:
+        required: true
+        type: string
 
 outputs:
   image_name:
     description: The name of the built Docker image
-runs:
-  using: "composite"  
-  steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
-    - name: Set up Java
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    - name: Build with Maven
-      shell: bash
-      run: mvn clean install
-    - name: login to docker hub
-      shell: bash
-      run:
-        echo "${{ inputs.docker_password }}" | docker login -u "${{ inputs.docker_username }}" --password-stdin
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build with Maven
+        shell: bash
+        run: mvn clean install
+      - name: login to docker hub
+        shell: bash
+        run:
+          echo "${{ inputs.docker_password }}" | docker login -u "${{ inputs.docker_username }}" --password-stdin
 
-    - name: Build Docker Image
-      shell: bash
-      run: |
-        docker build -t ${{ inputs.docker_username }}/spring-petclinic .
-        echo "image_name= ${{ inputs.docker_username }}/spring-petclinic:latest" >> $GITHUB_ENV
+      - name: Build Docker Image
+        shell: bash
+        run: |
+          docker build -t ${{ inputs.docker_username }}/spring-petclinic .
+          echo "image_name= ${{ inputs.docker_username }}/spring-petclinic:latest" >> $GITHUB_ENV
         
-    - name: Publish the docker image
-      shell: bash
-      run: docker push ${{ inputs.docker_username }}/spring-petclinic:latest  
+      - name: Publish the docker image
+        shell: bash
+        run: docker push ${{ inputs.docker_username }}/spring-petclinic:latest 
+
+    outputs:
+    image_name: ${{ env.image_name }}
