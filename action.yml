@@ -27,22 +27,22 @@ runs:
       run: mvn clean install
     - name: Debug Inputs
       run: |
-      echo "username: ${{ inputs.DOCKER_USERNAME }}"
-      echo "password: ${{ inputs.DOCKER_PASSWORD }}"
+      echo "username: ${{ inputs.docker_username }}"
+      echo "password: ${{ inputs.docker_password }}"
     - name: login to docker hub
       shell: bash
       with:
-        username: ${{ inputs.DOCKER_USERNAME }}
-        password: ${{ inputs.DOCKER_PASSWORD }}
+        username: ${{ inputs.docker_username }}
+        password: ${{ inputs.docker_password }}
       run:
-        echo "${{ inputs.DOCKER_PASSWORD }}" | docker login -u "${{ inputs.DOCKER_USERNAME }}" --password-stdin
+        echo "${{ inputs.docker_password }}" | docker login -u "${{ inputs.docker_username }}" --password-stdin
 
     - name: Build Docker Image
       shell: bash
       run: |
-        docker build -t ${{ inputs.DOCKER_USERNAME }}/spring-petclinic .
-        echo "image_name= ${{ inputs.DOCKER_USERNAME }}/spring-petclinic:latest" >> $GITHUB_ENV
+        docker build -t ${{ inputs.docker_username }}/spring-petclinic .
+        echo "image_name= ${{ inputs.docker_username }}/spring-petclinic:latest" >> $GITHUB_ENV
         
     - name: Publish the docker image
       shell: bash
-      run: docker push ${{ inputs.DOCKER_USERNAME }}/spring-petclinic:latest  
+      run: docker push ${{ inputs.docker_username }}/spring-petclinic:latest  
