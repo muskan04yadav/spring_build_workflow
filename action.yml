@@ -23,14 +23,14 @@ runs:
         DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       run:
-        echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+        echo "${{ env.DOCKER_PASSWORD }}" | docker login -u "${{ env.DOCKER_USERNAME }}" --password-stdin
 
     - name: Build Docker Image
       shell: bash
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/spring-petclinic .
-        echo "image_name= ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:latest" >> $GITHUB_ENV
+        docker build -t ${{ env.DOCKER_USERNAME }}/spring-petclinic .
+        echo "image_name= ${{ env.DOCKER_USERNAME }}/spring-petclinic:latest" >> $GITHUB_ENV
         
     - name: Publish the docker image
       shell: bash
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/spring-petclinic:latest  
+      run: docker push ${{ env.DOCKER_USERNAME }}/spring-petclinic:latest  
