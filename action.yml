@@ -1,10 +1,10 @@
 name: Build 
 description: Build spring boot application
 inputs:
-  docker-username:
+  DOCKER_USERNAME:
     description: docker username
     required: true
-  docker-password:
+  DOCKER_PASSWORD:
     description: password of the docker username
     required: true
 outputs:
