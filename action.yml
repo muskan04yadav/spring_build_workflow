@@ -25,16 +25,8 @@ runs:
     - name: Build with Maven
       shell: bash
       run: mvn clean install
-    - name: Debug Inputs
-      shell: bash
-      run: |
-      echo "username: ${{ inputs.docker_username }}"
-      echo "password: ${{ inputs.docker_password }}"
     - name: login to docker hub
       shell: bash
-      with:
-        username: ${{ inputs.docker_username }}
-        password: ${{ inputs.docker_password }}
       run:
         echo "${{ inputs.docker_password }}" | docker login -u "${{ inputs.docker_username }}" --password-stdin
 
