@@ -3,11 +3,11 @@ description: Build spring boot application
 on:
   workflow_call:
     username: 
-      description: 'username of the docker'
-        required: true
+      description: username of the docker
+      required: true
     password: 
-      description: 'password of the docker'
-        required: true
+      description: password of the docker
+      required: true
 
 outputs:
   image_name:
