@@ -11,6 +11,12 @@ on:
         description: password of the docker
         required: true
         type: string
+    secrets:
+      DOCKER_USERNAME:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+          
 
 # outputs:
 #   image_name:
