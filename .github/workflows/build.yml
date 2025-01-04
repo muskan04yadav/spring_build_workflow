@@ -53,7 +53,7 @@ jobs:
         shell: bash
         run: |
           docker build -t ${{ secrets.docker_username }}/spring-petclinic .
-          echo "image_name= ${{ secrtes.docker_username }}/spring-petclinic:latest" >> $GITHUB_ENV
+          echo "image_name= ${{ secrets.docker_username }}/spring-petclinic:latest" >> $GITHUB_ENV
         
       - name: Publish the docker image
         shell: bash
