@@ -36,7 +36,7 @@ jobs:
         #   password: ${{ inputs.docker_password }}
         shell: bash
         run: |
-           echo "${{ inputs.docker_password }}" | docker login -u "${{ inputs.docker_username }}" --password-stdin
+           echo "${{ secrets.docker_password }}" | docker login -u "${{ secrets.docker_username }}" --password-stdin
 
       - name: Build Docker Image
         shell: bash
