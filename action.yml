@@ -29,8 +29,8 @@ jobs:
       - name: login to docker hub
         uses: docker/login-action@v2
         with:
-          docker_username: ${{ inputs.DOCKER_USERNAME }}
-          docker_password: ${{ inputs.DOCKER_PASSWORD }}
+          docker_username: ${{ inputs.docker_username }}
+          docker_password: ${{ inputs.docker_password }}
         # shell: bash
         # run:
         #   echo "${{ secrets.docker_password }}" | docker login -u "${{ secrets.docker_username }}" --password-stdin
@@ -38,12 +38,12 @@ jobs:
       - name: Build Docker Image
         shell: bash
         run: |
-          docker build -t ${{ inputs.DOCKER_USERNAME }}/spring-petclinic .
-          echo "image_name= ${{ inputs.DOCKER_USERNAME }}/spring-petclinic:latest" >> $GITHUB_ENV
+          docker build -t ${{ inputs.docker_username }}/spring-petclinic .
+          echo "image_name= ${{ inputs.docker_username }}/spring-petclinic:latest" >> $GITHUB_ENV
         
       - name: Publish the docker image
         shell: bash
-        run: docker push ${{ inputs.DOCKER_USERNAME }}/spring-petclinic:latest 
+        run: docker push ${{ inputs.docker_username }}/spring-petclinic:latest 
 
     outputs:
     image_name: ${{ inputs.image_name }}
