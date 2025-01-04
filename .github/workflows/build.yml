@@ -2,15 +2,15 @@ name: Build
 # description: Build spring boot application
 on:
   workflow_call:
-    inputs:
-      docker_username: 
-        description: username of the docker
-        required: true
-        type: string
-      docker_password: 
-        description: password of the docker
-        required: true
-        type: string
+    # inputs:
+    #   docker_username: 
+    #     description: username of the docker
+    #     required: true
+    #     type: string
+    #   docker_password: 
+    #     description: password of the docker
+    #     required: true
+    #     type: string
     secrets:
       DOCKER_USERNAME:
         required: true
