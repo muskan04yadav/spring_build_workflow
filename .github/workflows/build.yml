@@ -38,8 +38,8 @@ jobs:
       - name: Debug Docker Credentials
         shell: bash
         run: |
-          echo "DOCKER_USERNAME is set: $([[ -n "${{ inputs.docker_username }}" ]] && echo true || echo false)"
-          echo "DOCKER_PASSWORD is set: $([[ -n "${{ inputs.docker_password }}" ]] && echo true || echo false)"
+          echo "DOCKER_USERNAME is set: $([[ -n "${{ inputs.DOCKER_USERNAME }}" ]] && echo true || echo false)"
+          echo "DOCKER_PASSWORD is set: $([[ -n "${{ inputs.DOCKER_PASSWORD }}" ]] && echo true || echo false)"
       - name: login to docker hub
         # uses: docker/login-action@v2
         # with:
@@ -47,7 +47,7 @@ jobs:
         #   password: ${{ inputs.docker_password }}
         shell: bash
         run: |
-           echo "${{ inputs.docker_password }}" | docker login -u "${{ inputs.docker_username }}" --password-stdin
+           echo "${{ inputs.DOCKER_PASSWORD }}" | docker login -u "${{ inputs.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build Docker Image
         shell: bash
