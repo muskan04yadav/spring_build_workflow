@@ -1,17 +1,20 @@
 name: Build 
-description: Build spring boot application
+# description: Build spring boot application
 on:
   workflow_call:
-    docker_username: 
-      description: username of the docker
-      required: true
-    docker_password: 
-      description: password of the docker
-      required: true
+    inputs:
+      docker_username: 
+        description: username of the docker
+        required: true
+        type: string
+      docker_password: 
+        description: password of the docker
+        required: true
+        type: string
 
-outputs:
-  image_name:
-    description: The name of the built Docker image
+# outputs:
+#   image_name:
+#     description: The name of the built Docker image
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -45,5 +48,5 @@ jobs:
         shell: bash
         run: docker push ${{ inputs.docker_username }}/spring-petclinic:latest 
 
-    outputs:
-    image_name: ${{ inputs.image_name }}
+    # outputs:
+    # image_name: ${{ inputs.image_name }}
