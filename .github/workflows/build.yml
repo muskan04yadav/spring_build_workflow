@@ -2,15 +2,15 @@ name: Build
 # description: Build spring boot application
 on:
   workflow_call:
-    # inputs:
-    #   docker_username: 
-    #     description: username of the docker
-    #     required: true
-    #     type: string
-    #   docker_password: 
-    #     description: password of the docker
-    #     required: true
-    #     type: string
+    inputs:
+      repository_name:
+        description: Name of the repository
+        required: true
+        type: string
+      tag:
+        description: Tag for the Docker image
+        required: true
+        type: string
     secrets:
       DOCKER_USERNAME:
         required: true
@@ -52,12 +52,12 @@ jobs:
       - name: Build Docker Image
         shell: bash
         run: |
-          docker build -t ${{ secrets.docker_username }}/spring-petclinic .
-          echo "image_name= ${{ secrets.docker_username }}/spring-petclinic:latest" >> $GITHUB_ENV
+          docker build -t ${{ secrets.docker_username }}/${{ inputs.repository_name }} .
+          echo "image_name= ${{ secrets.docker_username }}/${{ inputs.repository_name }}:${{ inputs.tag }}" >> $GITHUB_ENV
         
       - name: Publish the docker image
         shell: bash
-        run: docker push ${{ secrets.docker_username }}/spring-petclinic:latest 
+        run: docker push ${{ secrets.docker_username }}/${{ inputs.repository_name }}:${{ inputs.tag }} 
 
     # outputs:
     # image_name: ${{ inputs.image_name }}
